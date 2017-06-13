@@ -22,6 +22,7 @@ extern const struct device dev_vram;
 
 #define dev_vconsole dev_uartd
 
+extern const struct device dev_uxas_waypoint;
 extern const struct device dev_uartd;
 extern const struct device dev_clkcar;
 extern const struct device dev_usb1;
