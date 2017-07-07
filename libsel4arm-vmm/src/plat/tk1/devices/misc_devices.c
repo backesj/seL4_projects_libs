@@ -10,54 +10,6 @@
 #include <sel4arm-vmm/plat/device_map.h>
 #include <sel4arm-vmm/devices.h>
 
-
-static int handle_waypoint_fault(struct device* d, vm_t* vm, fault_t* fault){
-//    vusb_device_t* vusb;
-//    usb_ctrl_regs_t *ctrl_regs;
-//    uint32_t* reg;
-//    int offset;
-//
-//    assert(d->priv);
-//    offset = fault_get_address(fault) - d->pstart - 0x1000;
-//    vusb = device_to_vusb_dev_data(d);
-//    ctrl_regs = vusb->ctrl_regs;
-//    reg = (uint32_t*)((void*)ctrl_regs + (offset & ~0x3));
-//    if (fault_is_read(fault)) {
-//        if (reg != &ctrl_regs->status) {
-//            fault_set_data(fault, *reg);
-//        }
-//    } else {
-//        if (reg == &ctrl_regs->status) {
-//            /* start a transfer */
-//            root_hub_ctrl_start(vusb->hcd, ctrl_regs);
-//        } else if (reg == &ctrl_regs->intr) {
-//            /* Clear the interrupt pending flag */
-//            *reg = fault_emulate(fault, *reg);
-//        } else if (reg == &ctrl_regs->notify) {
-//            /* Manual notification */
-//            vm_vusb_notify(vusb);
-//        } else if (reg == &ctrl_regs->cancel_transaction) {
-//            /* Manual notification */
-//            vm_vusb_cancel(vusb, fault_get_data(fault));
-//        } else if ((void*)reg >= (void*)&ctrl_regs->req) {
-//            /* Fill out the root hub USB request */
-//            *reg = fault_emulate(fault, *reg);
-//        }
-//    }   
-//    return advance_fault(fault);
-    printf("VM RECEIVED FAULT\n");
-    return ignore_fault(fault);
-}
-
-const struct device dev_uxas_waypoint = {
-    .devid = DEV_CUSTOM,
-    .name = "waypoint",
-    .pstart = 0xE0000000, //this is an empty address on the tk1
-    .size = 0x1000,
-    .handle_page_fault = handle_waypoint_fault,
-    .priv = NULL
-};
-
 const struct device dev_usb1 = {
     .devid = DEV_CUSTOM,
     .name = "usb3",
@@ -66,7 +18,6 @@ const struct device dev_usb1 = {
     .handle_page_fault = NULL,
     .priv = NULL
 };
-
 
 const struct device dev_usb3 = {
     .devid = DEV_CUSTOM,
